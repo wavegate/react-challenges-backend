@@ -14,6 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Challenge_1 = __importDefault(require("../models/Challenge"));
 const ChallengeController = {
+    getChallenges: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const challenges = yield Challenge_1.default.find({});
+        const sortedChallenges = challenges.sort((challenge1, challenge2) => challenge1.index - challenge2.index);
+        return res.json({
+            challenges: sortedChallenges,
+        });
+    }),
     postChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const postData = req.body;
         const requirements = req.body.requirements.split(";");
@@ -25,13 +32,6 @@ const ChallengeController = {
         });
         const challenges = yield Challenge_1.default.find({});
         return res.json({ challenges: challenges });
-    }),
-    getChallenges: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const challenges = yield Challenge_1.default.find({});
-        const sortedChallenges = challenges.sort((challenge1, challenge2) => challenge1.index - challenge2.index);
-        return res.json({
-            challenges: sortedChallenges,
-        });
     }),
     putChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { _id, data } = req.body;

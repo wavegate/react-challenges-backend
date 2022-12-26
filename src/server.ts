@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+
+import dotenv from "dotenv";
+import path from "path";
 
 const app = express();
 
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import path from "path";
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 if (process.env.MONGODB_URI) {
   mongoose.connect(process.env.MONGODB_URI);
@@ -13,9 +15,16 @@ if (process.env.MONGODB_URI) {
 }
 
 import cors from "cors";
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://unique-mochi-478698.netlify.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
-import cookieParser from "cookie-parser";
 
 app.use(cookieParser());
 
