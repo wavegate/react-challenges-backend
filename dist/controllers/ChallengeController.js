@@ -16,16 +16,14 @@ const Challenge_1 = __importDefault(require("../models/Challenge"));
 const ChallengeController = {
     getChallenges: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const challenges = yield Challenge_1.default.find({});
-        const sortedChallenges = challenges.sort((challenge1, challenge2) => challenge1.index - challenge2.index);
         return res.json({
-            challenges: sortedChallenges,
+            challenges,
         });
     }),
     postChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const postData = req.body;
         const requirements = req.body.requirements.split(";");
         yield Challenge_1.default.create({
-            index: Number(postData.index),
             name: postData.name,
             rank: postData.rank,
             requirements: requirements,
@@ -35,7 +33,8 @@ const ChallengeController = {
     }),
     putChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { _id, data } = req.body;
-        yield Challenge_1.default.findOneAndUpdate({ _id: _id }, { data }, { new: true });
+        data.requirements = data.requirements.split(";");
+        yield Challenge_1.default.findOneAndUpdate({ _id: _id }, data, { new: true });
         const challenges = yield Challenge_1.default.find({});
         return res.json({ challenges: challenges });
     }),

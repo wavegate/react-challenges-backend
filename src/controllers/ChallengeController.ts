@@ -4,11 +4,8 @@ import Challenge from "../models/Challenge";
 const ChallengeController = {
   getChallenges: async (req: Request, res: Response) => {
     const challenges = await Challenge.find({});
-    const sortedChallenges = challenges.sort(
-      (challenge1, challenge2) => challenge1.index - challenge2.index
-    );
     return res.json({
-      challenges: sortedChallenges,
+      challenges,
     });
   },
 
@@ -16,7 +13,6 @@ const ChallengeController = {
     const postData = req.body;
     const requirements = req.body.requirements.split(";");
     await Challenge.create({
-      index: Number(postData.index),
       name: postData.name,
       rank: postData.rank,
       requirements: requirements,
@@ -27,7 +23,8 @@ const ChallengeController = {
 
   putChallenge: async (req: Request, res: Response) => {
     const { _id, data } = req.body;
-    await Challenge.findOneAndUpdate({ _id: _id }, { data }, { new: true });
+    data.requirements = data.requirements.split(";");
+    await Challenge.findOneAndUpdate({ _id: _id }, data, { new: true });
     const challenges = await Challenge.find({});
     return res.json({ challenges: challenges });
   },

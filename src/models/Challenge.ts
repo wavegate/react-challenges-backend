@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const ChallengeSchema = new Schema({
-  index: { type: Number, required: true },
   name: { type: String, required: true },
   rank: {
     type: String,
@@ -18,6 +17,7 @@ const ChallengeSchema = new Schema({
   requirements: [{ type: String }],
   submissions: [{ type: String }],
   comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+  source: { type: String },
 });
 
 const Challenge = model("Challenge", ChallengeSchema);
