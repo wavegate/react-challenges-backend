@@ -21,28 +21,27 @@ const ChallengeController = {
         });
     }),
     postChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const postData = req.body;
+        const challengeData = req.body;
         const requirements = req.body.requirements.split(";");
-        yield Challenge_1.default.create({
-            name: postData.name,
-            rank: postData.rank,
+        const challenge = yield Challenge_1.default.create({
+            name: challengeData.name,
+            rank: challengeData.rank,
             requirements: requirements,
         });
-        const challenges = yield Challenge_1.default.find({});
-        return res.json({ challenges: challenges });
+        return res.json({ challenge });
     }),
     putChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { _id, data } = req.body;
         data.requirements = data.requirements.split(";");
-        yield Challenge_1.default.findOneAndUpdate({ _id: _id }, data, { new: true });
-        const challenges = yield Challenge_1.default.find({});
-        return res.json({ challenges: challenges });
+        const challenge = yield Challenge_1.default.findOneAndUpdate({ _id: _id }, data, {
+            new: true,
+        });
+        return res.json({ challenge });
     }),
     deleteChallenge: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { _id } = req.body;
-        yield Challenge_1.default.findOneAndDelete({ _id: _id });
-        const challenges = yield Challenge_1.default.find({});
-        return res.json({ challenges: challenges });
+        const challenge = yield Challenge_1.default.findOneAndDelete({ _id: _id });
+        return res.json({ challenge });
     }),
 };
 exports.default = ChallengeController;

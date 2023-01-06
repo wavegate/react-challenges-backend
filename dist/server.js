@@ -28,6 +28,8 @@ app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 const ChallengeRouter_1 = __importDefault(require("./routers/ChallengeRouter"));
 app.use("/challenges", ChallengeRouter_1.default);
+const UserRouter_1 = __importDefault(require("./routers/UserRouter"));
+app.use("/users", UserRouter_1.default);
 app.all("*", (req, res) => {
     return res.json({ message: "Catch-all" });
 });

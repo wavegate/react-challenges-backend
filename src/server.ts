@@ -30,6 +30,8 @@ app.use(cookieParser());
 
 import ChallengeRouter from "./routers/ChallengeRouter";
 app.use("/challenges", ChallengeRouter);
+import UserRouter from "./routers/UserRouter";
+app.use("/users", UserRouter);
 
 app.all("*", (req: Request, res: Response) => {
   return res.json({ message: "Catch-all" });
